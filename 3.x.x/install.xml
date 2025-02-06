@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>TMD Multilanguage Seo Keyword Module</name>
+	<id>TMD Multilanguage Seo Keyword Module</id>
+	<code>TMD Multilanguage Seo Keyword Module</code>
+	<version>3.x.x</version>
+	<author>TMD(opencartextensions.in)</author>
+	
+	
+	<file path="admin/language/*/common/column_left.php">
+			<operation error="skip">
+				<search ><![CDATA[// Text]]></search>
+				<add position="after"><![CDATA[
+				/* xml */
+				$_['text_importseo']                   = 'Import/ExportSeo Excel File';
+				/* xml */]]>
+				
+				</add>
+			</operation>	
+	</file>		
+	
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[// System]]></search>
+			<add position="before"><![CDATA[		
+			$module_importseo_status = $this->config->get('module_importseo_status');
+			/* Import Export Seo Link*/		
+			if($module_importseo_status == 1){
+				$impoertexportseo = array();
+					if ($this->user->hasPermission('access', 'extension/importseo')) {
+					$impoertexportseo[] = array(
+						'name'	   => $this->language->get('text_importseo'),
+						'href'     => $this->url->link('extension/importseo', 'user_token=' . $this->session->data['user_token'], true),
+						'children' => array()
+					);			
+				}		
+				
+				if ($impoertexportseo) {	
+					$data['menus'][] = array(
+						'id'       => 'menu-report',
+						'icon'	   => 'fa fa-file-excel-o', 
+						'name'	   => $this->language->get('text_importseo'),
+						'href'     => '',
+						'children' => $impoertexportseo
+					);	
+				}		
+			}	
+			/* Import Export Seo Link*/
+			]]></add>
+		</operation>
+	</file>
+</modification>
